@@ -1,0 +1,103 @@
+print("Les jeux disponibles sont: morpion , pierre-feuille-ciseau(pfc) , dé"  )
+Start = input("Quel jeu souhaitez-vous?")
+if Start == "morpion":
+
+
+    plateau = [" " for i in range(9)]  # crée un tableau de 9 caractères espaces " "
+
+
+    def afficherPlateau(p, gagnant=None):
+        print(" " + p[0] + " | " + p[1] + " | " + p[2] + " ")
+        print("---+---+---")
+        print(" " + p[3] + " | " + p[4] + " | " + p[5] + " ")
+        print("---+---+---")
+        print(" " + p[6] + " | " + p[7] + " | " + p[8] + " ")
+        if gagnant:
+            print(" Partie terminée : le joueur " + gagnant + " a gagné !!!")
+
+
+    def morpion():
+        joueur = "X"
+        tour = 0
+
+        while True:
+            afficherPlateau(plateau)
+            print(" Tour du joueur " + joueur + ". Entrez un nombre de 1 à 9.")
+
+            move = int(input()) - 1  # notre tableau est de 0 à 8, donc on retire 1
+
+            if plateau[move] == " ":
+                plateau[move] = joueur
+                tour += 1
+            else:
+                print("! Case déjà occupée, choisissez-en une autre.")
+                continue  # on passe au prochain passage de boucle sans exécuter le code ci-dessous
+
+            if plateau[0] == plateau[1] == plateau[2] != " " \
+            or plateau[3] == plateau[4] == plateau[5] != " " \
+            or plateau[6] == plateau[7] == plateau[8] != " " \
+            or plateau[0] == plateau[3] == plateau[6] != " " \
+            or plateau[1] == plateau[4] == plateau[7] != " " \
+            or plateau[2] == plateau[5] == plateau[8] != " " \
+            or plateau[0] == plateau[4] == plateau[8] != " " \
+            or plateau[2] == plateau[4] == plateau[6] != " ":
+                afficherPlateau(plateau, joueur)
+                break
+
+            if tour == 9:
+                print("Égalité")
+                break
+
+            if joueur == "X":
+                joueur = "0"
+            else:
+                joueur = "X"
+            #joueur = "O" if joueur == "X" else "X"  # on change de joueur
+
+    morpion()
+
+if Start == "pfc":
+    joueur1 = input("Entrez le nom du joueur 1:").capitalize()
+    joueur2 = input("Entrez le nom du joueur 2:").capitalize()
+
+
+    def jeu():
+        while True:
+
+            jr1 = input(joueur1 + ": pierre, feuille ou ciseau? " + " \U0001F600")
+            jr2 = input(joueur2 + ": pierre, feuille ou ciseau? " + " \U0001F607")
+
+            if jr1 == "pierre" and jr2 == "feuille":
+                print(joueur2 + " a battu " + joueur1 + " \U0001F605")
+            elif jr1 == "pierre" and jr2 == "ciseau":
+                print(joueur1 + " a battu " + joueur2 + " \U0001F605")
+            elif jr1 == "feuille" and jr2 == "pierre":
+                print(joueur1 + " a battu " + joueur2 + " \U0001F605")
+            elif jr1 == "feuille" and jr2 == "ciseau":
+                print(joueur2 + " a battu " + joueur1 + " \U0001F605")
+            elif jr1 == "ciseau" and jr2 == "pierre":
+                print(joueur2 + " a battu " + joueur1 + " \U0001F605")
+            elif jr1 == "ciseau" and jr2 == "feuille":
+                print(joueur2 + " a battu " + joueur1 + " \U0001F605")
+            elif jr1 == jr2:
+                print("Egalité")
+
+
+    jeu()
+
+if Start == "dé":
+    from random import *
+    import pygame
+    pygame.mixer.init()
+    song = pygame.mixer.Sound("victoire.ogg")
+
+    while True:
+        res = randint(1, 6)
+        guess = input("Entrez le numéro du dé lancé \U0001F910 :")
+        if int(guess) == res:
+            print("Bravoo, vous avez de la chance aujourd'hui. Allez jouer au loto  \U0001F601")
+            song.play()
+            print("Encore:")
+        else:
+            print("C'est raté, le chiffre était " + str(res) + " \U0001F612")
+            print("Encore:")
